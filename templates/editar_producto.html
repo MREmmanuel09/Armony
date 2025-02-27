@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Producto</title>
+    <style>
+        :root {
+            --primary-color: #e6bf15;
+            --primary-color-hover: #d4af37;
+            --secondary-color: #333;
+            --light-color: #fff;
+            --dark-color: #555;
+            --bg-color: #f9f9f9;
+            --bg-secondary: #f0f0f0;
+            --success-bg: #d4edda;
+            --success-text: #155724;
+            --error-bg: #f8d7da;
+            --error-text: #721c24;
+            --font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-family);
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--dark-color);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: var(--light-color);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            color: var(--secondary-color);
+            margin-top: 0;
+        }
+
+        .form-container {
+            padding: 20px 0;
+        }
+
+        .inventory-form input,
+        .inventory-form select,
+        .inventory-form textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--bg-secondary);
+            border-radius: 5px;
+            font-size: 1em;
+            margin-bottom: 15px;
+            transition: border-color 0.3s ease;
+        }
+
+        .inventory-form input:focus,
+        .inventory-form select:focus,
+        .inventory-form textarea:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .cta-button {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-button.secondary {
+            background-color: var(--dark-color);
+        }
+
+        .cta-button:hover {
+            background-color: var(--primary-color-hover);
+        }
+
+        .mensaje {
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .exito {
+            background-color: var(--success-bg);
+            color: var(--success-text);
+            border: 1px solid var(--success-text);
+        }
+
+        .error {
+            background-color: var(--error-bg);
+            color: var(--error-text);
+            border: 1px solid var(--error-text);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Editar Producto</h2>
+
+        {% if mensaje_producto %}
+            <p class="mensaje exito">{{ mensaje_producto }}</p>
+        {% endif %}
+        {% if mensaje_producto_error %}
+            <p class="mensaje error">{{ mensaje_producto_error }}</p>
+        {% endif %}
+
+        <div class="form-container">
+            <form method="post" class="inventory-form">
+                <div class="input-group">
+                    <label for="product_name">Nombre Producto:</label>
+                    <input type="text" id="product_name" name="product_name" value="{{ producto.nombre_producto }}" required>
+                </div>
+                <div class="input-group">
+                    <label for="description">Descripción:</label>
+                    <textarea id="description" name="description">{{ producto.descripcion }}</textarea>
+                </div>
+                <div class="input-group">
+                    <label for="category">Categoría:</label>
+                    <select id="category" name="category" required>
+                        {% for categoria in categorias %}
+                            <option value="{{ categoria.categoria_id }}" {% if categoria.categoria_id == producto.categoria_id %}selected{% endif %}>{{ categoria.nombre_categoria }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="supplier">Proveedor:</label>
+                    <select id="supplier" name="supplier" required>
+                        {% for proveedor in proveedores %}
+                            <option value="{{ proveedor.proveedor_id }}" {% if proveedor.proveedor_id == producto.proveedor_id %}selected{% endif %}>{{ proveedor.nombre_proveedor }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="brand">Marca:</label>
+                    <input type="text" id="brand" name="brand" value="{{ producto.marca }}">
+                </div>
+                <div class="input-group">
+                    <label for="unit">Unidad:</label>
+                    <input type="text" id="unit" name="unit" value="{{ producto.unidad }}">
+                </div>
+                <div class="input-group">
+                    <label for="purchase_price">Precio Compra:</label>
+                    <input type="number" id="purchase_price" name="purchase_price" step="0.01" value="{{ producto.precio_compra }}" required>
+                </div>
+                <div class="input-group">
+                    <label for="selling_price">Precio Venta:</label>
+                    <input type="number" id="selling_price" name="selling_price" step="0.01" value="{{ producto.precio_venta }}" required>
+                </div>
+                <div class="input-group">
+                    <label for="minimum_stock_level">Nivel Mínimo Stock:</label>
+                    <input type="number" id="minimum_stock_level" name="minimum_stock_level" value="{{ producto.nivel_minimo_stock }}" required>
+                </div>
+                <div class="input-group">
+                    <label for="barcode_sku">Código de Barras/SKU:</label>
+                    <input type="text" id="barcode_sku" name="barcode_sku" value="{{ producto.codigo_barras_sku }}">
+                </div>
+                <div class="input-group">
+                    <label for="product_image_url">URL Imagen Producto:</label>
+                    <input type="url" id="product_image_url" name="product_image_url" value="{{ producto.imagen_producto_url }}">
+                </div>
+                <div class="input-group">
+                    <label for="stock_quantity">Cantidad en Stock:</label>
+                    <input type="number" id="stock_quantity" name="stock_quantity" value="{{ producto.cantidad_stock }}" required>
+                </div>
+                <div class="input-group">
+                    <label for="expiration_date">Fecha de Expiración:</label>
+                    <input type="date" id="expiration_date" name="expiration_date" value="{{ producto.fecha_expiracion|string }}">
+                </div>
+                <div class="input-group">
+                    <label for="notes">Notas:</label>
+                    <textarea id="notes" name="notes">{{ producto.notas }}</textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="cta-button">Actualizar Producto</button>
+                    <a href="{{ url_for('admin_inventario') }}" class="cta-button secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

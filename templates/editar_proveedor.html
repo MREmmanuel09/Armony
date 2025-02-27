@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Proveedor</title>
+    <style>
+        :root {
+            --primary-color: #e6bf15;
+            --primary-color-hover: #d4af37;
+            --secondary-color: #333;
+            --light-color: #fff;
+            --dark-color: #555;
+            --bg-color: #f9f9f9;
+            --bg-secondary: #f0f0f0;
+            --success-bg: #d4edda;
+            --success-text: #155724;
+            --error-bg: #f8d7da;
+            --error-text: #721c24;
+            --font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-family);
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--dark-color);
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: var(--light-color);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            color: var(--secondary-color);
+            margin-top: 0;
+        }
+
+        .form-container {
+            padding: 20px 0;
+        }
+
+        .inventory-form input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--bg-secondary);
+            border-radius: 5px;
+            font-size: 1em;
+            margin-bottom: 15px;
+            transition: border-color 0.3s ease;
+        }
+
+        .inventory-form input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .cta-button {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-button.secondary {
+            background-color: var(--dark-color);
+        }
+
+        .cta-button:hover {
+            background-color: var(--primary-color-hover);
+        }
+
+        .mensaje {
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .exito {
+            background-color: var(--success-bg);
+            color: var(--success-text);
+            border: 1px solid var(--success-text);
+        }
+
+        .error {
+            background-color: var(--error-bg);
+            color: var(--error-text);
+            border: 1px solid var(--error-text);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Editar Proveedor</h2>
+
+        {% if mensaje_proveedor %}
+            <p class="mensaje exito">{{ mensaje_proveedor }}</p>
+        {% endif %}
+        {% if mensaje_proveedor_error %}
+            <p class="mensaje error">{{ mensaje_proveedor_error }}</p>
+        {% endif %}
+
+        <div class="form-container">
+            <form method="post" class="inventory-form">
+                <div class="input-group">
+                    <label for="nombre_proveedor">Nombre Proveedor:</label>
+                    <input type="text" id="nombre_proveedor" name="nombre_proveedor" value="{{ proveedor.nombre_proveedor }}" required>
+                </div>
+                <div class="input-group">
+                    <label for="contacto_info">Información de Contacto:</label>
+                    <input type="text" id="contacto_info" name="contacto_info" value="{{ proveedor.contacto_info }}">
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="cta-button">Actualizar Proveedor</button>
+                    <a href="{{ url_for('admin_inventario') }}" class="cta-button secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

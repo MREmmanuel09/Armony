@@ -1,0 +1,251 @@
+:root {
+    --primary-color: #28a745; 
+    --primary-color-hover: #218838;
+    --secondary-color: #343a40;
+    --light-color: #fff;
+    --bg-color: #f8f9fa; 
+    --bg-secondary: #e9ecef;
+    --border-color: #dee2e6; 
+    --font-family: 'Arial', sans-serif;
+}
+
+body {
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    color: var(--secondary-color);
+}
+
+.header-container, .footer-container, .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    background-color: var(--light-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo h1 {
+    margin: 0;
+    color: var(--primary-color);
+}
+
+.admin-nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+}
+
+.admin-nav li {
+    margin-left: 20px;
+}
+
+.admin-nav a {
+    text-decoration: none;
+    color: var(--secondary-color);
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.admin-nav a:hover {
+    color: var(--primary-color);
+}
+
+main.container {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.inventory-section h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--secondary-color);
+}
+
+.inventory-actions {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.cta-button {
+    background-color: var(--primary-color);
+    color: var(--light-color);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.cta-button.secondary {
+    background-color: var(--bg-secondary);
+    color: var(--secondary-color);
+}
+
+.cta-button:hover {
+    background-color: var(--primary-color-hover);
+}
+.cta-button.secondary:hover {
+    background-color: #d3d4d5;
+}
+
+
+.form-container {
+    background-color: var(--light-color);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.form-container h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: var(--secondary-color);
+    text-align: center;
+}
+
+.inventory-form .input-group {
+    margin-bottom: 15px;
+}
+
+.inventory-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--secondary-color);
+}
+
+.inventory-form input[type="text"],
+.inventory-form input[type="number"],
+.inventory-form input[type="date"],
+.inventory-form input[type="url"],
+.inventory-form select,
+.inventory-form textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.inventory-form textarea {
+    resize: vertical; /* Permite redimensionar verticalmente */
+    min-height: 100px;
+}
+
+
+.form-actions {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.form-actions button {
+    margin: 0 10px;
+}
+
+
+.inventory-table-container {
+    overflow-x: auto; /* Para tablas anchas en pantallas pequeñas */
+}
+
+.inventory-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background-color: var(--light-color);
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.inventory-table thead th {
+    background-color: var(--bg-secondary);
+    color: var(--secondary-color);
+    padding: 12px;
+    border-bottom: 2px solid var(--border-color);
+    text-align: left;
+}
+
+.inventory-table tbody td {
+    padding: 10px;
+    border-bottom: 1px solid var(--border-color);
+    text-align: left;
+}
+
+.inventory-table tbody tr:last-child td {
+    border-bottom: none; 
+}
+
+.inventory-table tbody tr:nth-child(even) {
+    background-color: var(--bg-secondary); 
+}
+
+
+.edit-btn, .delete-btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: var(--light-color);
+    transition: background-color 0.3s ease;
+    font-size: 0.9em;
+}
+
+.edit-btn {
+    background-color: #007bff; 
+}
+
+.delete-btn {
+    background-color: #dc3545; 
+    margin-left: 5px;
+}
+
+.edit-btn:hover {
+    background-color: #0056b3;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+}
+
+
+footer {
+    background-color: var(--light-color);
+    text-align: center;
+    padding: 20px 0;
+    border-top: 1px solid var(--border-color);
+    color: var(--secondary-color);
+    font-size: 0.9em;
+}
+
+.mensaje {
+    text-align: center;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.mensaje.exito {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.mensaje.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}

@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Administración de Inventario</title>
+    <style>
+        :root {
+            --primary-color: #e6bf15;
+            --primary-color-hover: #d4af37;
+            --secondary-color: #333;
+            --light-color: #fff;
+            --dark-color: #555;
+            --bg-color: #f9f9f9;
+            --bg-secondary: #f0f0f0;
+            --success-bg: #d4edda;
+            --success-text: #155724;
+            --error-bg: #f8d7da;
+            --error-text: #721c24;
+            --font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-family);
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--dark-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: var(--light-color);
+            padding: 10px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo h1 {
+            margin: 0;
+            font-size: 1.8em;
+            color: var(--secondary-color);
+        }
+
+        .admin-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            gap: 20px;
+        }
+
+        .admin-nav a {
+            text-decoration: none;
+            color: var(--secondary-color);
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 5px;
+            background-color: var(--bg-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .admin-nav a:hover,
+        .admin-nav a:focus {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+        }
+
+        .form-container {
+            background-color: var(--light-color);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .inventory-form input,
+        .inventory-form select,
+        .inventory-form textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--bg-secondary);
+            border-radius: 5px;
+            font-size: 1em;
+            margin-bottom: 15px;
+            transition: border-color 0.3s ease;
+        }
+
+        .inventory-form input:focus,
+        .inventory-form select:focus,
+        .inventory-form textarea:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .cta-button {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-button.secondary {
+            background-color: var(--dark-color);
+        }
+
+        .cta-button:hover {
+            background-color: var(--primary-color-hover);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: var(--light-color);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--bg-secondary);
+        }
+
+        th {
+            background-color: var(--bg-secondary);
+            color: var(--secondary-color);
+        }
+
+        tr:hover {
+            background-color: var(--bg-secondary);
+        }
+
+        .mensaje {
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .exito {
+            background-color: var(--success-bg);
+            color: var(--success-text);
+            border: 1px solid var(--success-text);
+        }
+
+        .error {
+            background-color: var(--error-bg);
+            color: var(--error-text);
+            border: 1px solid var(--error-text);
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .table-actions a, .table-actions button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            color: var(--light-color);
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 0.9em;
+        }
+
+        .edit-button {
+            background-color: var(--primary-color);
+        }
+
+        .edit-button:hover {
+            background-color: var(--primary-color-hover);
+        }
+
+        .delete-button {
+            background-color: #dc3545; 
+        }
+
+        .delete-button:hover {
+            background-color: #c82333;
+        }
+
+
+        @media screen and (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .admin-nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            table, .form-container {
+                overflow-x: auto;
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <h1>Panel de Administración</h1>
+            </div>
+            <nav class="admin-nav">
+                <ul>
+                    <li><a href="{{ url_for('admin_inventario') }}">Inventario</a></li>
+                    <li><a href="{{ url_for('index') }}">Cerrar Sesion</a></li>
+                    <li><a href="#">Usuarios</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <h2>Productos en Inventario</h2>
+        {% if mensaje_producto %}
+            <p class="mensaje exito">{{ mensaje_producto }}</p>
+        {% endif %}
+        {% if mensaje_producto_error %}
+            <p class="mensaje error">{{ mensaje_producto_error }}</p>
+        {% endif %}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre Producto</th>
+                    <th>Categoría</th>
+                    <th>Proveedor</th>
+                    <th>Marca</th>
+                    <th>Precio Venta</th>
+                    <th>Stock</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for producto in productos_inventario %}
+                <tr>
+                    <td>{{ producto.producto_id }}</td>
+                    <td>{{ producto.nombre_producto }}</td>
+                    <td>{{ producto.nombre_categoria }}</td>
+                    <td>{{ producto.nombre_proveedor }}</td>
+                    <td>{{ producto.marca }}</td>
+                    <td>{{ producto.precio_venta }}</td>
+                    <td>{{ producto.cantidad_stock }}</td>
+                    <td class="table-actions">
+                        <a href="{{ url_for('editar_producto', id=producto.producto_id) }}" class="edit-button">Editar</a>
+                        <form action="{{ url_for('eliminar_producto_route', id=producto.producto_id) }}" method="post" style="display:inline-block;">
+                            <button type="submit" class="delete-button" onclick="return confirm('¿Estás seguro de que quieres eliminar este producto?')">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <section class="edit-section">
+            <div class="form-container inventory-form">
+                <h2>Agregar Producto</h2>
+                <form method="post">
+                    <div class="input-group">
+                        <label for="product_name">Nombre Producto:</label>
+                        <input type="text" id="product_name" name="product_name" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="description">Descripción:</label>
+                        <textarea id="description" name="description"></textarea>
+                    </div>
+                    <div class="input-group">
+                        <label for="category">Categoría:</label>
+                        <select id="category" name="category" required>
+                            {% for categoria in categorias %}
+                                <option value="{{ categoria.categoria_id }}">{{ categoria.nombre_categoria }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="supplier">Proveedor:</label>
+                        <select id="supplier" name="supplier" required>
+                            {% for proveedor in proveedores %}
+                                <option value="{{ proveedor.proveedor_id }}">{{ proveedor.nombre_proveedor }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="brand">Marca:</label>
+                        <input type="text" id="brand" name="brand">
+                    </div>
+                    <div class="input-group">
+                        <label for="unit">Unidad:</label>
+                        <input type="text" id="unit" name="unit">
+                    </div>
+                    <div class="input-group">
+                        <label for="purchase_price">Precio Compra:</label>
+                        <input type="number" id="purchase_price" name="purchase_price" step="0.01" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="selling_price">Precio Venta:</label>
+                        <input type="number" id="selling_price" name="selling_price" step="0.01" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="minimum_stock_level">Nivel Mínimo Stock:</label>
+                        <input type="number" id="minimum_stock_level" name="minimum_stock_level" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="barcode_sku">Código de Barras/SKU:</label>
+                        <input type="text" id="barcode_sku" name="barcode_sku">
+                    </div>
+                    <div class="input-group">
+                        <label for="product_image_url">URL Imagen Producto:</label>
+                        <input type="url" id="product_image_url" name="product_image_url">
+                    </div>
+                    <div class="input-group">
+                        <label for="stock_quantity">Cantidad en Stock:</label>
+                        <input type="number" id="stock_quantity" name="stock_quantity" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="expiration_date">Fecha de Expiración:</label>
+                        <input type="date" id="expiration_date" name="expiration_date">
+                    </div>
+                    <div class="input-group">
+                        <label for="notes">Notas:</label>
+                        <textarea id="notes" name="notes"></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" name="add_product" class="cta-button">Agregar Producto</button>
+                        <a href="{{ url_for('admin_inventario') }}" class="cta-button secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section class="edit-section">
+            <h2>Categorías</h2>
+            {% if mensaje_categoria %}
+            <div class="mensaje-exito">{{ mensaje_categoria }}</div>
+            {% endif %}
+            {% if mensaje_categoria_error %}
+            <div class="mensaje-error">{{ mensaje_categoria_error }}</div>
+            {% endif %}
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre Categoría</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for categoria in categorias %}
+                    <tr>
+                        <td>{{ categoria.categoria_id }}</td>
+                        <td>{{ categoria.nombre_categoria }}</td>
+                        <td class="table-actions">
+                            <a href="{{ url_for('editar_categoria', id=categoria.categoria_id) }}" class="edit-button">Editar</a>
+                            <form action="{{ url_for('eliminar_categoria_route', id=categoria.categoria_id) }}" method="post" style="display:inline-block;">
+                                <button type="submit" class="delete-button" onclick="return confirm('¿Estás seguro de que quieres eliminar esta categoría?')">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="form-container">
+                <h3>Agregar Categoría</h3>
+                <form method="post">
+                    <div class="input-group">
+                        <label for="nombre_categoria">Nombre Categoría:</label>
+                        <input type="text" id="nombre_categoria" name="nombre_categoria" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" name="add_category" class="cta-button">Agregar Categoría</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section class="edit-section">
+            <h2>Proveedores</h2>
+            {% if mensaje_proveedor %}
+                <p class="mensaje exito">{{ mensaje_proveedor }}</p>
+            {% endif %}
+            {% if mensaje_proveedor_error %}
+                <p class="mensaje error">{{ mensaje_proveedor_error }}</p>
+            {% endif %}
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre Proveedor</th>
+                        <th>Contacto Info</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for proveedor in proveedores %}
+                    <tr>
+                        <td>{{ proveedor.proveedor_id }}</td>
+                        <td>{{ proveedor.nombre_proveedor }}</td>
+                        <td>{{ proveedor.contacto_info }}</td>
+                        <td class="table-actions">
+                            <a href="{{ url_for('editar_proveedor', id=proveedor.proveedor_id) }}" class="edit-button">Editar</a>
+                            <form action="{{ url_for('eliminar_proveedor_route', id=proveedor.proveedor_id) }}" method="post" style="display:inline-block;">
+                                <button type="submit" class="delete-button" onclick="return confirm('¿Estás seguro de que quieres eliminar este proveedor?')">Eliminar</button> 
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="form-container">
+                <h3>Agregar Proveedor</h3>
+                <form method="post">
+                    <div class="input-group">
+                        <label for="nombre_proveedor">Nombre Proveedor:</label>
+                        <input type="text" id="nombre_proveedor" name="nombre_proveedor" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="contacto_info">Información de Contacto:</label>
+                        <input type="text" id="contacto_info" name="contacto_info">
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" name="add_supplier" class="cta-button">Agregar Proveedor</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-container">
+            <p>&copy; 2025 Sistema de Inventario</p>
+            <nav>
+                <ul>
+                    <li><a href="#">Soporte</a></li>
+                    <li><a href="#">Términos de Uso</a></li>
+                </ul>
+            </nav>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,117 @@
+:root {
+    --primary-color: #e6bf15;
+    --primary-color-hover: #e6bf15;
+    --secondary-color: #333;
+    --light-color: #fff;
+    --dark-color: #e6bf15;
+    --bg-color: #f9f9f9;
+    --bg-secondary: #f0f0f0;
+    --font-family: 'Arial', sans-serif;
+  }
+  
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+  }
+  
+  .login-container {
+    background-color: var(--light-color);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    margin: 20px;
+  }
+  .Regresar {
+    padding: 20px;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 250px;
+    margin: 20px auto;
+  
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .login-form h2 {
+    text-align: center;
+    color: var(--secondary-color);
+    margin-bottom: 30px;
+  }
+  
+  .input-group {
+    margin-bottom: 20px;
+  }
+  
+  .input-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--secondary-color);
+    font-weight: bold;
+  }
+  
+  .input-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: border-color 0.3s ease;
+  }
+  
+  .input-group input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+  }
+  
+  .cta-button {
+    width: 100%;
+    background-color: var(--primary-color);
+    color: var(--light-color);
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    text-decoration: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  }
+  
+  .cta-button:hover,
+  .cta-button:focus {
+    background-color: var(--primary-color-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+    outline: none;
+  }
+  
+  .forgot-password {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .forgot-password a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 0.9em;
+  }
+  
+  .forgot-password a:hover,
+  .forgot-password a:focus {
+    text-decoration: underline;
+  }
