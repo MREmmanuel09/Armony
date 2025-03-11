@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'your_secret_key')
 
 db_config = {
-    'host': os.environ.get('DB_HOST', 'localhost'),
+    'host': os.environ.get('DB_HOST', ''),
     'user': os.environ.get('DB_USER', ''),
     'password': os.environ.get('DB_PASSWORD', ''),
     'database': os.environ.get('DB_NAME', '')
@@ -436,6 +436,7 @@ def login():
 
             if user and check_password_hash(user['contrasena'], contrasena_plana):
                 session['usuario_id'] = user['id']
+                session['nombre'] = user['nombre']  # Almacenar el nombre del usuario en la sesión
                 session['rol'] = user['rol']
                 if session['rol'] == 'admin':
                     return redirect(url_for('admin_inventario'))
@@ -451,7 +452,6 @@ def login():
             db.close()
 
     return render_template('login.html', mensaje_error=mensaje_error)
-
 
 @app.route('/admin/inventario', methods=['GET', 'POST'])
 def admin_inventario():
@@ -519,6 +519,39 @@ def admin_inventario():
     else:
         return redirect(url_for('login'))
 
+@app.route('/agendar_cita', methods=['POST'])
+def agendar_cita():
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        email = request.form['email']
+        telefono = request.form['telefono']
+        fecha = request.form['fecha']
+        hora = request.form['hora']
+        servicio = request.form['servicio']
+        mensaje = request.form['mensaje']
+
+        # Aquí puedes agregar la lógica para guardar la cita en la base de datos
+        # Por ejemplo:
+        db = conectar_db()
+        if db is None:
+            return "Error al conectar a la base de datos para agendar cita."
+        cursor = db.cursor()
+        try:
+            sql = """
+            INSERT INTO citas (nombre, email, telefono, fecha, hora, servicio, mensaje)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            """
+            cursor.execute(sql, (nombre, email, telefono, fecha, hora, servicio, mensaje))
+            db.commit()
+            return redirect(url_for('index', mensaje="Cita agendada exitosamente!"))
+        except mysql.connector.Error as err:
+            db.rollback()
+            return f"Error al agendar cita: {err}"
+        finally:
+            cursor.close()
+            db.close()
+
+    return redirect(url_for('index'))
 
 # Rutas para Editar
 
